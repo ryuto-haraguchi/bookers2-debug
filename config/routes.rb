@@ -10,7 +10,12 @@ Rails.application.routes.draw do
   end
 
   devise_for :users
-  resources :users, only: [:index,:show,:edit,:update]
-
+  resources :users, only: [:index,:show,:edit,:update] do
+    member do
+      get :following, :followers
+    end
+  end
+  
+  resources :relationships, onry: [:create, :destroy]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
