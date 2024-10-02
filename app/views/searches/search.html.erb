@@ -1,0 +1,46 @@
+<% if @model == "user" %>
+  <h2>Users search for "<%= @query %>"</h2>
+<% elsif @model == "book" %>
+  <h2>Books search for "<%= @query %>"</h2>
+<% end %>
+
+<table class = "table">
+  <tr>
+    <% if @model == "user" %>
+    <th></th>
+    <th>Name</th>
+    <th>Introduction</th>
+    <% elsif @model == "book" %>
+    <th></th>
+    <th>Title</th>
+    <th>Opinion</th>
+    <% end %>
+  </tr>
+  <% if @results.any? %>
+    <% @results.each do |result| %>
+      <% if @model == "user" %>
+      <td>
+        <%= image_tag result.get_profile_image, size:'50x50' %>
+      </td>
+      <td>
+        <%= link_to result.name, user_path(result) %>
+      </td>
+      <td>
+        <%= result.introduction %>
+      </td>
+      <% elsif @model == "book" %>
+      <td>
+        <%= image_tag result.user.get_profile_image, size:'50x50' %>
+      </td>
+      <td>
+        <%= link_to result.title, book_path(result) %>
+      </td>
+      <td>
+        <%= result.body %>
+      </td>
+      <% end %>
+    <% end %>
+  <% else %>
+    <p>該当する結果がありませんでした。</p>
+  <% end %>
+</table>
