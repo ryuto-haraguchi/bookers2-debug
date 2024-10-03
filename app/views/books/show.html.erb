@@ -29,28 +29,11 @@
               <% end %>
         </tr>
       </table>
-      <table class = "table">
-        <% @book.book_comments.each do |comment| %>
-        <tr>
-          <td>
-           <%= link_to user_path(comment.user) do %>
-              <%= image_tag comment.user.get_profile_image, size:"50x50" %></br>
-              <%= comment.user.name %>
-            <% end %>
-          </td>
-          <td>
-            <%= comment.comment %>
-          </td>
-          <td>
-            <% if comment.user == current_user %>
-              <%= link_to "Destroy", book_book_comment_path(@book, comment), method: :delete %>
-            <% end %>
-          </td>
-        </tr>
-        <% end %>
+      <table class = "table" id = "comment-list">
+        <%= render partial: "book_comments/comment", collection: @book.book_comments %>
       </table>
       <div>
-        <%= form_with model: [@book, @book_comment], local: false do |f| %>
+        <%= form_with model: [@book, @book_comment], local: false, html: { id: 'new_book_comment' } do |f| %>
           <%= f.text_area :comment, placeholder: "コメントをここに", style: "width: 100%" %>
           <%= f.submit "送信"%>
         <% end %>

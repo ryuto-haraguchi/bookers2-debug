@@ -7,22 +7,26 @@ class BookCommentsController < ApplicationController
     @book_comment = current_user.book_comments.new(book_comment_params)
     @book_comment.book = @book
     if @book_comment.save
-      flash[:notice] = "Commented!"
-      redirect_to book_path(@book)
+      respond_to do |format|
+        format.js
+      end 
     else
       render "books/show"
     end
   end
 
   def destroy
-    BookComment.find(params[:id]).destroy
-    redirect_to book_path(params[:book_id])
+    @book_comment = BookComment.find(params[:id])
+    @book_comment.destroy
+    respond_to do |format|
+      format.js
+    end 
   end
 
   private
 
   def book_comment_params
-    params.require(:book_comment).permit(:comment,:user_id,:book_id)
+    params.require(:book_comment).permit(:comment)
   end
   
   def ensure_correct_user

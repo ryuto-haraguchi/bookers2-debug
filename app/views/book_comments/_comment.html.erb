@@ -1,0 +1,16 @@
+<tr id = "comment-<%= comment.id %>"> 
+  <td>
+    <%= link_to user_path(comment.user) do %>
+      <%= image_tag comment.user.get_profile_image, size:"50x50" %></br>
+      <%= comment.user.name %>
+    <% end %>
+  </td>
+  <td>
+    <%= comment.comment %>
+  </td>
+  <td>
+    <% if comment.user == current_user %>
+      <%= link_to "Destroy", book_book_comment_path(comment.book, comment), method: :delete, remote: true %>
+    <% end %>
+  </td>
+</tr>
