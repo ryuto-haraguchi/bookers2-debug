@@ -1,0 +1,30 @@
+<div class = "container" style = "width: 20%;">
+  <div class = "row">
+    <h1>
+      <%= @chat_room.other_user(current_user).name %>
+    </h1>
+  </div>
+  <div id = "message">
+    <% @direct_messages.each do |message| %>
+      <% if message.user == current_user %>
+        <div class="d-flex">
+          <p class="ml-auto" style = "margin-right: 5px;"><%= message.content %></p>
+          <%= image_tag message.user.get_profile_image, size: "25x25" %>
+        </div>
+      <% else %>
+        <div class = "row d-flex">
+          <%= image_tag message.user.get_profile_image, size: "25x25" %>
+          <p style = "margin-left: 5px;"><%= message.user.name %>:<%= message.content %></p>
+        </div>
+      <% end %>
+    <% end %>  
+  </div>
+    <%= form_with(model: [@chat_room, DirectMessage.new], local: true) do |form| %>
+    <div>
+      <%= form.text_area :content %>
+    </div>
+      <%= form.submit "送信" %>
+    <% end %>
+</div>
+
+

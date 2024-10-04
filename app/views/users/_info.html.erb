@@ -27,8 +27,19 @@
       <%= link_to "フォローする", relationships_path(followed_id: user.id), method: :post, class: "btn btn-success" %>
     </th>
     <% end %>
+    <% if current_user.mutual_follow?(user) %>
+    <th style="border: none;">
+      <%= link_to "DM", chat_room_path(ChatRoom.find_or_create_by_users(current_user, user)), class: "btn btn-outline-primary" %>
+    </th>
+    <% end %>
   </tr>
   <% end %>
+  <tr>
+  <% if user == current_user %>
+    <th><%= link_to "DM List", chat_rooms_path, class: "btn btn-outline-primary" %></th>
+    <th></th>
+  <% end %>
+  </tr>
 </table>
 
 <div class='row'>

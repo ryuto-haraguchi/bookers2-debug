@@ -1,0 +1,10 @@
+<h1>ChatRoom List</h1>
+<table class = "table">
+  <tr>
+    <% @chat_rooms.each do |chat_room| %>
+    <th>
+      <%= link_to chat_room.other_user(current_user).name, chat_room_path(chat_room) %>
+    </th>
+    <% end %>
+  </tr>
+</table>
