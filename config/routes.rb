@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   end
 
   resources :relationships, onry: [:create, :destroy]
-  
+
   resources :chat_rooms do
     resources :direct_messages, only: [:create]
   end
