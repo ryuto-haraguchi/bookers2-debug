@@ -7,8 +7,24 @@
       <%= render 'books/form', book: @book %>
     </div>
     <div class='col-md-8 offset-md-1'>
-      <h2>Books</h2>
+      <h3>Books</h3>
       <%= render 'books/index',books: @books %>
+      <h1>投稿数の前日比・前週比</h1>
+      <table class='table'>
+        <thead>
+          <tr>
+            <th>今日の投稿数</th>
+            <th>前日の投稿数</th>
+            <th>前日比</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= @user.todays_books_count %></td>
+            <td><%= @user.books_from_yesterday_count %></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

@@ -38,5 +38,13 @@ class User < ApplicationRecord
   def mutual_follow?(other_user)
     self.following?(other_user) && other_user.following?(self)
   end
+
+  def todays_books_count
+    books.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day).count
+  end 
+
+  def books_from_yesterday_count
+    books.where(created_at: 1.day.ago.all_day).count
+  end
   
 end
