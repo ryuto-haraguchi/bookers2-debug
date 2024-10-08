@@ -49,15 +49,36 @@ class User < ApplicationRecord
 
   def boos_day_over_day_change
     today_count = todays_books_count
-    
-    yesterday_count = books_from_yesterday_count
-    
-    return "No date for yesterday" if yesterday_count == 0
-    
-    change_ratio = ((today_count - yesterday_count).to_f / yesterday_count) * 100
-    
-    change_ratio.round(1)
 
+    yesterday_count = books_from_yesterday_count
+
+    return "No date for yesterday" if yesterday_count == 0
+
+    change_ratio = ((today_count - yesterday_count).to_f / yesterday_count) * 100
+
+    "#{change_ratio.round(0)}%"
+
+  end
+
+  def books_from_this_week_count
+    start_of_week = Time.zone.now.beginning_of_week(:saturday)
+    books.where(created_at: start_of_week..Time.zone.now.end_of_day).count
+  end
+
+  def books_from_last_week_count
+    start_of_last_week = 1.week.ago.beginning_of_week(:saturday)
+    end_of_last_week = start_of_last_week + 6.days
+    books.where(created_at: start_of_last_week..end_of_last_week.end_of_day).count
+  end
+
+  def books_week_over_week_change
+    this_week_count = books_from_this_week_count
+    last_week_count = books_from_last_week_count
+
+    return "No data for last week" if last_week_count == 0
+
+    change_ratio = ((this_week_count - last_week_count).to_f / last_week_count) * 100
+    "#{change_ratio.round(0)}%"
   end
 
 end
