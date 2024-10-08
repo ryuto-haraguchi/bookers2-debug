@@ -1,0 +1,15 @@
+document.getElementById('book-count').innerHTML = `
+  <h3 class = "mt-2">検索結果</h3>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>投稿数</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= @books_count %> 件</td>
+      </tr>
+    </tbody>
+  </table>
+`;

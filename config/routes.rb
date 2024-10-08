@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :users, only: [:index,:show,:edit,:update] do
     member do
       get :following, :followers
+      get :date_books
     end
   end
 

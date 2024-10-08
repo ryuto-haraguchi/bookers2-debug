@@ -62,7 +62,6 @@
           </tr>
         </tbody>
       </table>
-
       <div>
         <p class = "text-center">７日間の投稿数の比較</p>
         <canvas id="postsChart"></canvas>
@@ -99,7 +98,22 @@
             });
           });
         </script>
+
+
+
+
+
+      </div> <!--グラフのコード-->
+      <div class = "mt-5">
+        <%= form_with url: date_books_user_path(@user), method: :get, local: false do |f| %>
+        <div class = "d-flex">
+          <%= f.date_field :selected_date, class: "form-control", placeholder: "日付を選択", style: "width: 30%;" %>
+          <%= f.submit "検索", class: "btn btn-primary" %>
+        </div>
+        <% end %>
       </div>
+      <div id = "book-count"></div>
+
     </div>
   </div>
 </div>

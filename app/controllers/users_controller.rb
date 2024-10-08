@@ -38,6 +38,16 @@ class UsersController < ApplicationController
     render "show_follow"
   end
 
+  def date_books
+    @user = User.find(params[:id])
+    @selected_date = params[:selected_date].to_date
+    @books_count = @user.books.where(created_at: @selected_date.all_day).count
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
 
   def user_params
