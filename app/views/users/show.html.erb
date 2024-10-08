@@ -42,6 +42,64 @@
           </tr>
         </tbody>
       </table>
+      <table class = "table table-bordered">
+        <thead>
+          <tr>
+            <% @user.books_count_last_7_days.each do |day_date| %>
+              <% if day_date[:days_ago] == 0 %>
+              <th>今日</th>
+              <% else %>
+              <th><%= "#{day_date[:days_ago]}日前" %></th>
+              <% end %>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <% @user.books_count_last_7_days.each do |day_count| %>
+              <td><%= day_count[:count] %></td>
+            <% end %>
+          </tr>
+        </tbody>
+      </table>
+
+      <div>
+        <p class = "text-center">７日間の投稿数の比較</p>
+        <canvas id="postsChart"></canvas>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById('postsChart').getContext('2d');
+            var postsChart = new Chart(ctx, {
+              type: 'line', // グラフの種類
+              data: {
+                labels: ["6日前", "5日前", "4前", "3日前", "2日前", "1日前", "今日"],
+                datasets: [{
+                  label: '比較した本の数',
+                  data: <%= raw(@user.books_count_last_7_days.map { |day_data| day_data[:count] }.to_json) %>, // Y軸のデータ
+                  backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                  borderColor: 'rgba(54, 162, 235, 1)',
+                  borderWidth: 1,
+                  tension: 0.4
+                }]
+              },
+              options: {
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                    min: 0, // Y軸の最小値を0に設定
+                    max: 10, // Y軸の最大値を10に設定
+                    ticks: {
+                      stepSize: 1 // Y軸の目盛りを1刻みに設定
+                    }
+                  }
+                }
+              }
+            });
+          });
+        </script>
+      </div>
     </div>
   </div>
 </div>

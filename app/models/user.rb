@@ -80,5 +80,12 @@ class User < ApplicationRecord
     change_ratio = ((this_week_count - last_week_count).to_f / last_week_count) * 100
     "#{change_ratio.round(0)}%"
   end
-
+  
+  def books_count_last_7_days
+    (6.downto(0)).map do |i|
+      day = i.days.ago.to_date
+      { days_ago: i, count: books.where(created_at: day.beginning_of_day..day.end_of_day).count }
+    end
+  end 
+  
 end
