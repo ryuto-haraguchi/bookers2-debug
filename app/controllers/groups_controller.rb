@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_group, only:[:show, :edit, :update]
-  before_action :ensure_owner, only:[:edit, :update]
+  before_action :set_group, only:[:show, :edit, :update, :destroy]
+  before_action :ensure_owner, only:[:edit, :update, :destroy]
 
 
   def index
@@ -30,12 +30,19 @@ class GroupsController < ApplicationController
   def create
     @group = current_user.owned_groups.build(group_params)
     if @group.save
+      @group.group_users.create(user: current_user)
       flash[:notice] = "Group was successfully created."
       redirect_to groups_path
     else
       render :new
     end
   end
+  
+  def destroy
+    @group.destroy
+    flash[:notice] = "Group was deleted!"
+    redirect_to groups_path
+  end 
 
   private
 

@@ -5,8 +5,19 @@
     <td><%= @group.name %></td>
     <td><%= @group.introduction %></td>
     <td>
+    <% @group.group_users.each do |group_user| %>
+      <div><%= group_user.user.name %></div>
+    <% end %>
+    </td>
+    <td>
       <% if @group.owner == current_user %>
-        <%= link_to "Edit", edit_group_path %>
+        <%= link_to "Edit", edit_group_path, class: "btn btn-primary" %> /
+        <%= link_to "Destroy", group_path(@group), method: :delete, class: "btn btn-danger" %> /
+      <% end %>
+      <% if @group.owner != current_user && !@group.group_users.exists?(user_id: current_user) %>
+        <%= link_to "Join this group", group_group_users_path(@group), method: :post, class: "btn btn-success" %>
+      <% elsif @group.group_users.exists?(user_id: current_user) %>
+        <%= link_to "Leave this group", group_group_user_path(@group, current_user), method: :delete, class: "btn btn-danger" %>
       <% end %>
     </td>
   </tr>
