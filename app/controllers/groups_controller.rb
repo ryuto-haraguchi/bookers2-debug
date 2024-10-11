@@ -43,6 +43,19 @@ class GroupsController < ApplicationController
     flash[:notice] = "Group was deleted!"
     redirect_to groups_path
   end 
+  
+  def new_event_notice
+    @group = Group.find(params[:id])
+  end
+  
+  def send_event_notice
+    @group = Group.find(params[:id])
+    subject = params[:subject]
+    content = params[:content]
+    EventMailer.event_notice_email(@group, subject, content)
+    flash[:notice] = "イベント通知を送信しました。"
+    redirect_to @group
+  end
 
   private
 

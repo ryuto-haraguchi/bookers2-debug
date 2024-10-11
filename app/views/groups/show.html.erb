@@ -13,6 +13,7 @@
       <% if @group.owner == current_user %>
         <%= link_to "Edit", edit_group_path, class: "btn btn-primary" %> /
         <%= link_to "Destroy", group_path(@group), method: :delete, class: "btn btn-danger" %> /
+        <%= link_to "Notice an Event", new_event_notice_group_path(@group), class: "btn btn-primary" %>
       <% end %>
       <% if @group.owner != current_user && !@group.group_users.exists?(user_id: current_user) %>
         <%= link_to "Join this group", group_group_users_path(@group), method: :post, class: "btn btn-success" %>
