@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :relationships, onry: [:create, :destroy]
+  resources :relationships, only: [:create, :destroy]
 
   resources :chat_rooms do
     resources :direct_messages, only: [:create]
@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     member do
       get :new_event_notice
       post :send_event_notice 
+      get :sent_event_notice
     end
   end
   get "search", to: "searches#search", as: "search"
