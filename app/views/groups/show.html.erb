@@ -1,2 +1,13 @@
-<h1>Groups#show</h1>
-<p>Find me in app/views/groups/show.html.erb</p>
+<h2>Group Detail</h2>
+<table class = "table">
+  <tr>
+    <td><%= image_tag @group.get_group_image, size: "50x50" %></td>
+    <td><%= @group.name %></td>
+    <td><%= @group.introduction %></td>
+    <td>
+      <% if @group.owner == current_user %>
+        <%= link_to "Edit", edit_group_path %>
+      <% end %>
+    </td>
+  </tr>
+</table>

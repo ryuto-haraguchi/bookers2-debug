@@ -12,12 +12,14 @@
   <tbody>
     <% @groups.each do |group| %>
     <tr>
-      <td><%= image_tag group.get_group_image, size: "100x100" %></td>
+      <td><%= image_tag group.get_group_image, size: "50x50" %></td>
       <td><%= link_to group.name, group_path(group) %></td>
       <td><%= group.introduction %></td>
-      <% if group.owner == current_user %>
-      <td><%= link_to "Edit", edit_group_path(group), calss: "btn btn-success" %></td>
-      <% end %>
+      <td>
+        <% if group.owner == current_user %>
+          <%= link_to "Edit", edit_group_path(group), calss: "btn btn-success" %>
+        <% end %>
+      </td>
     </tr>
     <% end %>
   </tbody>
