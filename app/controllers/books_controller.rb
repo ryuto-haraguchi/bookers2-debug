@@ -11,7 +11,13 @@ class BooksController < ApplicationController
   end
 
   def index
-    @books = Book.popular_in_last_week
+    if params[:sort] == "score"
+      @books = Book.order(score: :desc)
+    elsif params[:sort] == "new"
+      @books = Book.order(created_at: :desc)
+    else
+      @books = Book.popular_in_last_week
+    end
     @book = Book.new
   end
 
@@ -57,7 +63,7 @@ class BooksController < ApplicationController
       redirect_to books_path
     end
   end
-  
+
   def prevent_score_change
     if @book.persisted? && @book.score.present?
     params[:book].delete(:score)

@@ -9,6 +9,7 @@
     </div>
     <div class='col-md-8 offset-md-1'>
       <h2>Books</h2>
+      <%= link_to "新着順", books_path(sort: "new") %> | <%= link_to "評価順", books_path(sort: "score") %> | <%= link_to "先週の人気順", books_path(sort: "pupular_in_last_week") %>
       <%= render 'index', books: @books %>
     </div>
   </div>
