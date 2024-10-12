@@ -25,7 +25,25 @@
         <td>
           閲覧数:<%= book.view_count %>
         </td>
+        <td id="show_raty_<%= book.id %>" data-score="<%= book.score %>"></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    let books = <%= raw @books.to_json %>;
+    books.forEach(book => {
+      let elem = document.querySelector(`#show_raty_${book.id}`);
+      let opt = {  
+        readOnly: true, // 読み取り専用にする
+        score: elem.dataset.score, // 評価点を表示
+        starOn: "<%= asset_path('star_images/star-on.png') %>",
+        starOff: "<%= asset_path('star_images/star-off.png') %>",
+        starHalf: "<%= asset_path('star_images/star-half.png') %>"
+      };
+      raty(elem, opt);
+    });
+  });
+</script>

@@ -1,6 +1,7 @@
 class BooksController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_correct_user, only: [:update, :edit]
+  before_action :prevent_score_change, only: [:update]
 
   def show
     @book = Book.find(params[:id])
@@ -47,13 +48,19 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:title,:body)
+    params.require(:book).permit(:title,:body,:score)
   end
 
   def ensure_correct_user
     @book = Book.find(params[:id])
     unless @book.user == current_user
       redirect_to books_path
+    end
+  end
+  
+  def prevent_score_change
+    if @book.persisted? && @book.score.present?
+    params[:book].delete(:score)
     end
   end
 

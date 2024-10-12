@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_10_10_150658) do
+ActiveRecord::Schema.define(version: 2024_10_12_025707) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 2024_10_10_150658) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "view_count", default: 0, null: false
+    t.integer "score"
   end
 
   create_table "chat_rooms", force: :cascade do |t|
