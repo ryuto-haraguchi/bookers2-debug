@@ -9,7 +9,7 @@ class Book < ApplicationRecord
     favorites.exists?(user_id: user.id)
   end
 
-  scope :popular_in_last_week, -> {
+  scope :popular, -> {
     left_joins(:favorites)
       .group("books.id")
       .order("COUNT(favorites.id) DESC")

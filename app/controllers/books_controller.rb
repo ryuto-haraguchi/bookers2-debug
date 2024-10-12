@@ -16,7 +16,7 @@ class BooksController < ApplicationController
     elsif params[:sort] == "new"
       @books = Book.order(created_at: :desc)
     else
-      @books = Book.popular_in_last_week
+      @books = Book.popular
     end
     @book = Book.new
   end
