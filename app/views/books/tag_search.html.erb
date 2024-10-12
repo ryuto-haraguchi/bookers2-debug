@@ -1,0 +1,58 @@
+<h2>Users search for "<%= @tag %>"</h2>
+<table class = "table">
+  <tr>
+    <th></th>
+    <th>Title</th>
+    <th>Opinion</th>
+    <th>Tag</th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+  <% @books.each do |book| %>
+  <tr>
+      <td>
+        <%= image_tag book.user.get_profile_image, size:'50x50' %>
+      </td>
+      <td>
+        <%= link_to book.title, book_path(book) %>
+      </td>
+      <td>
+        <%= book.body %>
+      </td>
+      <td>
+      <% book.tags.each do |tag| %>
+        <%= link_to tag.name, tag_search_path(tag.name) %>
+      <% end %>
+      </td>
+      <td class = "favorite-btn-<%= book.id %>">
+        <%= render "favorites/favorite_btn", book: book %>
+      </td>
+      <td>
+        コメント数:<%= book.book_comments.count %>
+      </td>
+      <td>
+        閲覧数:<%= book.view_count %>
+      </td>
+      <td id="show_raty_<%= book.id %>" data-score="<%= book.score %>"></td>
+  </tr>
+  <% end %>
+</table>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    let books = <%= raw @books.to_json %>;
+    books.forEach(book => {
+      let elem = document.querySelector(`#show_raty_${book.id}`);
+      let opt = {
+        readOnly: true, // 読み取り専用にする
+        score: elem.dataset.score, // 評価点を表示
+        starOn: "<%= asset_path('star_images/star-on.png') %>",
+        starOff: "<%= asset_path('star_images/star-off.png') %>",
+        starHalf: "<%= asset_path('star_images/star-half.png') %>"
+      };
+      raty(elem, opt);
+    });
+  });
+</script>

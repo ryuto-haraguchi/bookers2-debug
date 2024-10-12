@@ -17,6 +17,9 @@
           </td>
           <td><%= link_to @book.title, @book %></td>
           <td><%= @book.body %></td>
+          <% @book.tags.each do |tag| %>
+          <td><%= link_to tag.name, tag_search_path(tag: tag.name) %></td>
+          <% end %>
           <td class = "favorite-btn-<%= @book.id %>">
             <%= render "favorites/favorite_btn", book: @book %>
           </td>
@@ -49,7 +52,7 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     let elem = document.querySelector('#show_raty');
-    let opt = {  
+    let opt = {
       readOnly: true, // 読み取り専用にする
       score: elem.dataset.score, // 評価点を表示
       starOn: "<%= asset_path('star_images/star-on.png') %>",

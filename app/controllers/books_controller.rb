@@ -50,11 +50,17 @@ class BooksController < ApplicationController
     @book.destroy
     redirect_to books_path
   end
+  
+  def tag_search
+    @tag = params[:tag]
+    @books = Book.tagged_with(@tag)
+    render :tag_search
+  end
 
   private
 
   def book_params
-    params.require(:book).permit(:title,:body,:score)
+    params.require(:book).permit(:title,:body,:score,:tag_list)
   end
 
   def ensure_correct_user

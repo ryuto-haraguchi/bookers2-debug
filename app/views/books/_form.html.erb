@@ -7,6 +7,10 @@
     <%= f.label :opinion %>
     <%= f.text_area :body, class: 'form-control book_body' %>
   </div>
+  <div class="form-group">
+    <%= f.label :tag_list, "タグ" %>
+    <%= f.text_field :tag_list, class: "form-control", placeholder: "タグをカンマで区切って入力" %>
+  </div>
   <div id="post_raty" class="form-group">
     <%= f.hidden_field :score, id: "book_score" %>
   </div>
