@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_10_12_060859) do
+ActiveRecord::Schema.define(version: 2024_10_18_004832) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -98,6 +98,17 @@ ActiveRecord::Schema.define(version: 2024_10_12_060859) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "notifiable_type", null: false
+    t.integer "notifiable_id", null: false
+    t.boolean "read", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
   create_table "relationships", force: :cascade do |t|
     t.integer "follower_id"
     t.integer "followed_id"
@@ -157,5 +168,6 @@ ActiveRecord::Schema.define(version: 2024_10_12_060859) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "direct_messages", "chat_rooms"
   add_foreign_key "direct_messages", "users"
+  add_foreign_key "notifications", "users"
   add_foreign_key "taggings", "tags"
 end

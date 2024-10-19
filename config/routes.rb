@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   root "homes#top"
   get "home/about"=>"homes#about"
-  
+
   get 'tag_search', to: 'books#tag_search', as: 'tag_search'
 
   resources :books, only: [:index,:show,:edit,:create,:destroy,:update] do
@@ -29,10 +29,12 @@ Rails.application.routes.draw do
     resources :group_users, only: [:create, :destroy]
     member do
       get :new_event_notice
-      post :send_event_notice 
+      post :send_event_notice
       get :sent_event_notice
     end
   end
   get "search", to: "searches#search", as: "search"
+
+  resources :notifications, only:[:update]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

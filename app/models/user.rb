@@ -19,6 +19,8 @@ class User < ApplicationRecord
   has_many :group_users
   has_many :groups, through: :group_users
   
+  has_many :notifications, dependent: :destroy
+  
 
   def follow(other_user)
     active_relationships.create(followed_id: other_user.id)
