@@ -4,23 +4,24 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  # bookers2基本機能
   has_many :books, dependent: :destroy
   has_many :book_comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_one_attached :profile_image
 
+  def get_profile_image
+    (profile_image.attached?) ? profile_image : 'no_image.jpg'
+  end
+
+  validates :name, length: { minimum: 2, maximum: 20 }, uniqueness: true
+  validates :introduction, length: { maximum: 50 }
+
+  # フォロー・フォロワー機能
   has_many :active_relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
   has_many :following, through: :active_relationships, source: :followed
-
   has_many :passive_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
   has_many :followers, through: :passive_relationships, source: :follower
-  
-  has_many :owned_groups, class_name: "Group", foreign_key: "owner_id", dependent: :destroy
-  has_many :group_users
-  has_many :groups, through: :group_users
-  
-  has_many :notifications, dependent: :destroy
-  
 
   def follow(other_user)
     active_relationships.create(followed_id: other_user.id)
@@ -34,18 +35,20 @@ class User < ApplicationRecord
     following.include?(other_user)
   end
 
-  validates :name, length: { minimum: 2, maximum: 20 }, uniqueness: true
-  validates :introduction, length: { maximum: 50 }
-
-
-  def get_profile_image
-    (profile_image.attached?) ? profile_image : 'no_image.jpg'
-  end
-
   def mutual_follow?(other_user)
     self.following?(other_user) && other_user.following?(self)
   end
+  
+  # グループ機能
+  has_many :owned_groups, class_name: "Group", foreign_key: "owner_id", dependent: :destroy
+  has_many :group_users
+  has_many :groups, through: :group_users
+  
+  # 通知機能
+  has_many :notifications, dependent: :destroy
+  
 
+  
   def todays_books_count
     books.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day).count
   end
