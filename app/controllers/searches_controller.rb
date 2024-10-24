@@ -29,7 +29,7 @@ class SearchesController < ApplicationController
       User.where("name LIKE ?", "%#{query}%")
     end
   end
-  
+
   def search_for_book(search_method, query)
     case search_method
     when "perfect"
